@@ -7,7 +7,7 @@ import { NavLink, useNavigate } from "react-router";
 import { useAuth } from "../contexts/Auth";
 
 const RegisterPin = () => {
-  const { changeStatus, statusRegis } = useAuth();
+  const { setPinRegistration } = useAuth();
   const [pin, setPin] = useState(new Array(6).fill(""));
 
   const handleChange = (element, index) => {
@@ -21,10 +21,10 @@ const RegisterPin = () => {
     if (element.nextSibling && element.value !== "") {
       element.nextSibling.focus();
     }
-  };
 
+  };
   const handleClick = () => {
-    changeStatus("RegisterConfirmPin")
+    setPinRegistration(pin);
   }
 
   return (

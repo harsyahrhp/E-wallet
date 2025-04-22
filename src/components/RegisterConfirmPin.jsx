@@ -7,7 +7,7 @@ import { NavLink, useNavigate } from "react-router";
 import { useAuth } from "../contexts/Auth";
 
 const RegisterConfirmPin = () => {
-  const { changeStatus, statusRegis } = useAuth();
+  const { changeStatus, statusRegis, accountnum, pinRegistration } = useAuth();
   const [pin, setPin] = useState(new Array(6).fill(""));
 
   const handleChange = (element, index) => {
@@ -23,9 +23,44 @@ const RegisterConfirmPin = () => {
     }
 
   };
-  const handleClick = () => {
-    changeStatus("RegisterStatus")
-  }
+  // const handleClick = () => {
+    
+  //   changeStatus("RegisterStatus")
+  // }
+
+    const handleClick = async () => {
+      e.preventDefault();
+
+      if(pinRegistration != pin){
+        return
+      }
+
+      try {
+        const response = await fetch('http://localhost:8080/api/pin', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            accountnum: accountnum,
+            pin: pin
+          }),
+        });
+  
+        const data = await response.json();
+  
+        // changeStatus("RegisterPin");
+        if (response.ok) {
+          alert(data.message);
+          changeStatus("RegisterStatus");
+        } else {
+          alert(data.message);
+        }
+      } catch (error) {
+        // console.error("Error:", error);
+        // alert(data.message);
+      }
+    }
 
   return (
     <div className="max-w-sm mx-auto mt-20 p-8 rounded-3xl shadow-lg bg-white text-center">

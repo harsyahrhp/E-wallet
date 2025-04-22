@@ -7,6 +7,10 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [statusRegis, setStatusRegis] = useState("RegisterForm");
+  const [statusTransfer, setStatusTransfer] = useState("TransferForm");
+  const [statusTopup, setStatusTopup] = useState("TopupForm");
+  const [accountnum, setAccountnum] = useState(null);
+  const [pinRegistration, setPinRegistration] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,8 +36,18 @@ export const AuthProvider = ({ children }) => {
     setStatusRegis(param);
   };
 
+  const changeStatusTransfer = (param) => {
+    setStatusTransfer(param);
+  };
+
+  const changeStatusTopup = (param) => {
+    setStatusTopup(param);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading, changeStatus, statusRegis }}>
+    <AuthContext.Provider value={{ user, login, logout, loading, 
+    changeStatus, statusRegis, changeStatusTransfer, statusTransfer, changeStatusTopup, statusTopup,
+    accountnum, setAccountnum, pinRegistration, setPinRegistration}}>
       {children}
     </AuthContext.Provider>
   );

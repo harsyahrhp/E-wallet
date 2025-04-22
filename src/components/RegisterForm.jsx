@@ -5,18 +5,49 @@ import { NavLink, useNavigate } from "react-router";
 // import { Moon, Sun } from "lucide-react";
 // import { useTheme } from "../contexts/ThemeContext";
 import { useAuth } from "../contexts/Auth";
+import { Eye, EyeOff } from "lucide-react";
+
+const PasswordInput = ({ label, value, onChange }) => {
+  const [show, setShow] = useState(false);
+
+  return (
+    <div className="relative mb-6">
+      {/* <label className="block text-sm mb-1">{label}</label> */}
+      <input
+        type={show ? "text" : "password"}
+        value={value}
+        onChange={onChange}
+        placeholder={label}
+        className="w-full p-1 border-b border-purple-400 bg-transparent focus:outline-none"
+      />
+      <button
+        type="button"
+        onClick={() => setShow(!show)}
+        className="absolute right-0 top-3 text-purple-500"
+      >
+        {show ? <Eye size={18} /> : <EyeOff size={18} />}
+      </button>
+    </div>
+  );
+};
 
 const RegisterForm = () => {
-  const { changeStatus, statusRegis } = useAuth();
+  const { changeStatus, accountnum, setAccountnum } = useAuth();
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    if(password != confirmPassword){
+      alert("Password Not Match");
+      return
+    }
     console.log(JSON.stringify({
       email: username,
       password: password,
@@ -40,10 +71,11 @@ const RegisterForm = () => {
 
       const data = await response.json();
 
-      changeStatus("RegisterPin");
+      // changeStatus("RegisterPin");
       if (response.ok) {
         alert(data.message);
         // navigate("/login");
+        setAccountnum(data.accountnum);
         changeStatus("RegisterPin");
       } else {
         alert(data.message);
@@ -57,99 +89,110 @@ const RegisterForm = () => {
   return (
     // <div className="flex min-h-screen overflow-hidden dark:text-white">
     //   <div className="flex min-h-full flex-1 flex-col justify-center items-center px-6 py-12 lg:px-8">
-        <div className="border-[1px] py-[2rem] px-[3rem] rounded-[40px] shadow-md">
+    <div className="border-[1px] py-[2rem] px-[3rem] rounded-[40px] shadow-md">
 
-          <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <img alt="Walled" src={logo} className="mx-auto h-10 w-auto" />
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <img alt="Walled" src={logo} className="mx-auto h-10 w-auto" />
+      </div>
+
+      <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
+        <p className="text-center font-[600] text-[24px]">Register your account</p>
+        <p className="text-center text-[12px]">Let’s get started!</p>
+      </div>
+
+      <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form className="space-y-6" onSubmit={handleRegister}>
+          <div>
+            <div className="mt-2">
+              <input
+                id="fullname"
+                name="fullname"
+                onChange={(e) => setFullName(e.target.value)}
+                type="text"
+                required
+                placeholder="Full Name"
+                className="w-full mt-2 p-1 border-b border-purple-400 bg-transparent focus:outline-none"
+              />
+            </div>
           </div>
 
-          <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
-            <p className="text-center font-[600] text-[24px]">Register your account</p>
-            <p className="text-center text-[12px]">Let’s get started!</p>
+          <div>
+            <div className="mt-2">
+              <input
+                id="username"
+                name="username"
+                onChange={(e) => setUsername(e.target.value)}
+                type="text"
+                required
+                placeholder="Email"
+                className="w-full mt-2 p-1 border-b border-purple-400 bg-transparent focus:outline-none"
+              />
+            </div>
           </div>
 
-          <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form className="space-y-6" onSubmit={handleRegister}>
-              <div>
-                <div className="mt-2">
-                  <input
-                    id="fullname"
-                    name="fullname"
-                    onChange={(e) => setFullName(e.target.value)}
-                    type="text"
-                    required
-                    placeholder="Full Name"
-                    className="w-full mt-2 p-1 border-b border-purple-400 bg-transparent focus:outline-none"
-                  />
-                </div>
-              </div>
+          {/* <div>
+            <div className="mt-2">
+              <input
+                id="password"
+                name="password"
+                onChange={(e) => setPassword(e.target.value)}
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                required
+                className="w-full mt-2 p-1 border-b border-purple-400 bg-transparent focus:outline-none"
+              />
+            </div>
+          </div> */}
 
-              <div>
-                <div className="mt-2">
-                  <input
-                    id="username"
-                    name="username"
-                    onChange={(e) => setUsername(e.target.value)}
-                    type="text"
-                    required
-                    placeholder="Email"
-                    className="w-full mt-2 p-1 border-b border-purple-400 bg-transparent focus:outline-none"
-                  />
-                </div>
-              </div>
+          <PasswordInput
+            label="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <PasswordInput
+            label="Re-enter Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
 
-              <div>
-                <div className="mt-2">
-                  <input
-                    id="password"
-                    name="password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    type="password"
-                    placeholder="Password"
-                    required
-                    className="w-full mt-2 p-1 border-b border-purple-400 bg-transparent focus:outline-none"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <div className="mt-2">
-                  <input
-                    id="phonenumber"
-                    name="phonenumber"
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (/^\d*$/.test(value)) {
-                        setPhoneNumber(value);
-                      }
-                    }}
-                    value={phoneNumber}
-                    maxLength={12}
-                    type="text"
-                    placeholder="Phone Number"
-                    required
-                    className="w-full mt-2 p-1 border-b border-purple-400 bg-transparent focus:outline-none"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <p className="mt-10 mb-2 text-center text-[12px] dark:text-gray-300">
-                  Already have an account?{" "}
-                  <NavLink to="/login" className="text-[#9F2BFB] underline">
-                    Login
-                  </NavLink>
-                </p>
-                <button
-                  type="submit"
-                  className="flex px-[2rem] py-[0.5rem] justify-self-center rounded-[4px] bg-[#9F2BFB] font-semibold text-white dark:text-black drop-shadow-xl hover:drop-shadow-none hover:shadow-inner"
-                >
-                  Register
-                </button>
-              </div>
-            </form>
+          <div>
+            <div className="mt-2">
+              <input
+                id="phonenumber"
+                name="phonenumber"
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (/^\d*$/.test(value)) {
+                    setPhoneNumber(value);
+                  }
+                }}
+                value={phoneNumber}
+                maxLength={12}
+                type="text"
+                placeholder="Phone Number"
+                required
+                className="w-full mt-2 p-1 border-b border-purple-400 bg-transparent focus:outline-none"
+              />
+            </div>
           </div>
-        </div>
+
+          <div>
+            <p className="mt-10 mb-2 text-center text-[12px] dark:text-gray-300">
+              Already have an account?{" "}
+              <NavLink to="/login" className="text-[#9F2BFB] underline">
+                Login
+              </NavLink>
+            </p>
+            <button
+              type="submit"
+              className="flex px-[2rem] py-[0.5rem] justify-self-center rounded-[4px] bg-[#9F2BFB] font-semibold text-white dark:text-black drop-shadow-xl hover:drop-shadow-none hover:shadow-inner"
+            >
+              Register
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 };
 
