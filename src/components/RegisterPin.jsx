@@ -7,6 +7,7 @@ import { NavLink, useNavigate } from "react-router";
 import { useAuth } from "../contexts/Auth";
 
 const RegisterPin = () => {
+  const { changeStatus } = useAuth();
   const { setPinRegistration } = useAuth();
   const [pin, setPin] = useState(new Array(6).fill(""));
 
@@ -25,6 +26,7 @@ const RegisterPin = () => {
   };
   const handleClick = () => {
     setPinRegistration(pin);
+    changeStatus("RegisterConfirmPin");
   }
 
   return (

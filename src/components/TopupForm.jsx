@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChevronDown } from "lucide-react";
 import walletLogo from "../assets/logo-wallet.png";
 import { useAuth } from "../contexts/Auth";
@@ -7,10 +7,34 @@ const TopupForm = () => {
   const [amount, setAmount] = useState(0);
   const [method, setMethod] = useState("");
   const { changeStatusTopup } = useAuth();
+  const [dataUser, setDataUser] = useState("");
 
   const handleClick = () => {
     changeStatusTopup('TopupMethod');
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await fetch('http://localhost:8080/api/users/100006', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            "token": token
+          },
+        });
+
+        const data = await response.json();
+        setDataUser(data);
+        console.log(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className="max-w-sm mx-auto bg-white shadow-xl rounded-3xl p-6 text-center mt-10">
@@ -20,10 +44,10 @@ const TopupForm = () => {
         <div className="flex items-center gap-3">
           {/* <div className="w-10 h-10 bg-purple-500 rounded-xl">
           </div> */}
-            <img src={walletLogo} alt="wallet" className="w-10 h-10" />
+          <img src={walletLogo} alt="wallet" className="w-10 h-10" />
           <div>
             <p className="text-sm">Wally Balance</p>
-            <p className="font-semibold">Rp1.000.000</p>
+            <p className="font-semibold">{dataUser?.data?.balance.toLocaleString('id-ID')}</p>
           </div>
         </div>
       </div>
@@ -43,6 +67,7 @@ const TopupForm = () => {
           <option value="gopay">GoPay</option>
           <option value="ovo">OVO</option>
         </select>
+
         <ChevronDown className="absolute right-3 top-3 text-purple-500 pointer-events-none" />
       </div>
 
@@ -53,7 +78,7 @@ const TopupForm = () => {
       </div>
 
       <button className="w-full bg-[#9F2BFB] hover:bg-[#8b23dc] text-white py-2 rounded-xl font-semibold"
-      onClick={handleClick}>
+        onClick={handleClick}>
         Next
       </button>
     </div>

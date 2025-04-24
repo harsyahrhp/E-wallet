@@ -6,30 +6,8 @@ import { NavLink, useNavigate } from "react-router";
 // import { useTheme } from "../contexts/ThemeContext";
 import { useAuth } from "../contexts/Auth";
 import { Eye, EyeOff } from "lucide-react";
-
-const PasswordInput = ({ label, value, onChange }) => {
-  const [show, setShow] = useState(false);
-
-  return (
-    <div className="relative mb-6">
-      {/* <label className="block text-sm mb-1">{label}</label> */}
-      <input
-        type={show ? "text" : "password"}
-        value={value}
-        onChange={onChange}
-        placeholder={label}
-        className="w-full p-1 border-b border-purple-400 bg-transparent focus:outline-none"
-      />
-      <button
-        type="button"
-        onClick={() => setShow(!show)}
-        className="absolute right-0 top-3 text-purple-500"
-      >
-        {show ? <Eye size={18} /> : <EyeOff size={18} />}
-      </button>
-    </div>
-  );
-};
+import { toast } from "react-toastify";
+import PasswordInput from "../components/HidePassword.jsx";
 
 const RegisterForm = () => {
   const { changeStatus, accountnum, setAccountnum } = useAuth();
@@ -48,12 +26,6 @@ const RegisterForm = () => {
       alert("Password Not Match");
       return
     }
-    console.log(JSON.stringify({
-      email: username,
-      password: password,
-      phone: phoneNumber,
-      fullName: fullName,
-    }))
 
     try {
       const response = await fetch('http://localhost:8080/api/register', {
@@ -64,6 +36,7 @@ const RegisterForm = () => {
         body: JSON.stringify({
           email: username,
           password: password,
+          confirmationPassword: confirmPassword,
           phone: phoneNumber,
           fullName: fullName,
         }),
@@ -71,18 +44,15 @@ const RegisterForm = () => {
 
       const data = await response.json();
 
-      // changeStatus("RegisterPin");
       if (response.ok) {
-        alert(data.message);
-        // navigate("/login");
+        toast.success(data.message);
         setAccountnum(data.accountnum);
         changeStatus("RegisterPin");
       } else {
-        alert(data.message);
+        toast.error(data.message);
       }
     } catch (error) {
-      // console.error("Error:", error);
-      // alert(data.message);
+      toast.error(data.message);
     }
   };
 
@@ -129,20 +99,6 @@ const RegisterForm = () => {
               />
             </div>
           </div>
-
-          {/* <div>
-            <div className="mt-2">
-              <input
-                id="password"
-                name="password"
-                onChange={(e) => setPassword(e.target.value)}
-                type={showPassword ? "text" : "password"}
-                placeholder="Password"
-                required
-                className="w-full mt-2 p-1 border-b border-purple-400 bg-transparent focus:outline-none"
-              />
-            </div>
-          </div> */}
 
           <PasswordInput
             label="Password"

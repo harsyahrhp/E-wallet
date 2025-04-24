@@ -5,6 +5,7 @@ import { NavLink, useNavigate } from "react-router";
 // import { Moon, Sun } from "lucide-react";
 // import { useTheme } from "../contexts/ThemeContext";
 import { useAuth } from "../contexts/Auth";
+import { toast } from "react-toastify";
 
 const RegisterConfirmPin = () => {
   const { changeStatus, statusRegis, accountnum, pinRegistration } = useAuth();
@@ -23,44 +24,41 @@ const RegisterConfirmPin = () => {
     }
 
   };
-  // const handleClick = () => {
-    
-  //   changeStatus("RegisterStatus")
-  // }
 
-    const handleClick = async () => {
-      e.preventDefault();
+  const handleClick = async () => {
+    // e.preventDefault();
 
-      if(pinRegistration != pin){
-        return
-      }
-
-      try {
-        const response = await fetch('http://localhost:8080/api/pin', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            accountnum: accountnum,
-            pin: pin
-          }),
-        });
-  
-        const data = await response.json();
-  
-        // changeStatus("RegisterPin");
-        if (response.ok) {
-          alert(data.message);
-          changeStatus("RegisterStatus");
-        } else {
-          alert(data.message);
-        }
-      } catch (error) {
-        // console.error("Error:", error);
-        // alert(data.message);
-      }
+    if (pinRegistration.join() != pin.join()) {
+      toast.error("Password Not Match");
+      return
     }
+
+    try {
+      const response = await fetch('http://localhost:8080/api/pin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          accountnum: accountnum,
+          pin: pin.join("")
+        }),
+      });
+
+      const data = await response.json();
+
+      // changeStatus("RegisterPin");
+      if (response.ok) {
+        toast.success(data.message);
+        changeStatus("RegisterStatus");
+        navigate("/login");
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(data.message);
+    }
+  }
 
   return (
     <div className="max-w-sm mx-auto mt-20 p-8 rounded-3xl shadow-lg bg-white text-center">

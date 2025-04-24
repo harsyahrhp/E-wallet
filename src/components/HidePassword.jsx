@@ -1,4 +1,7 @@
-const PasswordInput = ({ label, value, onChange }) => {
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+
+function PasswordInput ({ label, value, onChange }) {
   const [show, setShow] = useState(false);
 
   return (
@@ -14,7 +17,7 @@ const PasswordInput = ({ label, value, onChange }) => {
       <button
         type="button"
         onClick={() => setShow(!show)}
-        className="absolute right-0 top-6 text-purple-500"
+        className="absolute right-0 top-2 text-purple-500"
       >
         {show ? <Eye size={18} /> : <EyeOff size={18} />}
       </button>
