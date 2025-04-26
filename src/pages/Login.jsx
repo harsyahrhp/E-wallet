@@ -19,12 +19,6 @@ const LoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    // login("123")
-
-    console.log(JSON.stringify({
-      username: username,
-      password: password,
-    }));
 
     try {
       const response = await fetch('http://localhost:8080/api/login', {
@@ -39,7 +33,6 @@ const LoginPage = () => {
       });
 
       const data = await response.json();
-      console.log(data)
 
       if (response.ok) {
         // alert(data.message);
@@ -47,7 +40,7 @@ const LoginPage = () => {
         login(data.token);
           navigate("/");
       } else {
-        alert(data.message);
+        toast.error(data.message);
       }
     } catch (error) {
       toast.error(data.message);

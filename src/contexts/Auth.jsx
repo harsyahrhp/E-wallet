@@ -13,6 +13,8 @@ export const AuthProvider = ({ children }) => {
   const [pinRegistration, setPinRegistration] = useState(null);
   const [transferForm, setTransferForm] = useState(null);
   const [transferStatus, setTransferStatus] = useState(null);
+  const [topupForm, setTopupForm] = useState(null);
+  const [topupStatus, setTopupStatus] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,6 +23,31 @@ export const AuthProvider = ({ children }) => {
       setUser({token});
     }
     setLoading(false);
+
+    // const fetchData = async () => {
+    //   const token = localStorage.getItem("token");
+    //   try {
+    //     const response = await fetch('http://localhost:8080/api/users/me', {
+    //       method: 'GET',
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //         Authorization: "Bearer " + token
+    //       },
+    //     });
+
+    //     const data = await response.json();
+    //     if(data.message == 'JWT token expired'){
+    //       toast.error("Sesion Expired");
+    //       navigate("/login");
+    //     }
+    //     // setDataUser(data);
+    //     // console.log(data);
+    //   } catch (error) {
+    //     console.error("Error fetching data:", error);
+    //   }
+    // };
+
+    // fetchData();
   }, []);
 
   const login = (token) => {
@@ -50,7 +77,7 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider value={{ user, login, logout, loading, 
     changeStatus, statusRegis, changeStatusTransfer, statusTransfer, changeStatusTopup, statusTopup,
     accountnum, setAccountnum, pinRegistration, setPinRegistration, transferForm, setTransferForm,
-    transferStatus, setTransferStatus}}>
+    transferStatus, setTransferStatus, topupForm, setTopupForm, topupStatus, setTopupStatus}}>
       {children}
     </AuthContext.Provider>
   );

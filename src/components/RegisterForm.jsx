@@ -23,7 +23,7 @@ const RegisterForm = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     if(password != confirmPassword){
-      alert("Password Not Match");
+      toast.error("Password Not Match");
       return
     }
 

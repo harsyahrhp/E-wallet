@@ -6,21 +6,22 @@ import { ChevronDown } from "lucide-react";
 import { toast } from "react-toastify";
 
 const TransferForm = () => {
-  const { changeStatusTransfer,transferForm, setTransferForm } = useAuth();
+  const { changeStatusTransfer, transferForm, setTransferForm } = useAuth();
   const [accountNumber, setAccountNumber] = useState("");
-  const [transferAmount, setTransferAmount] = useState("");
+  const [transferAmount, setTransferAmount] = useState(0);
   const [dataUser, setDataUser] = useState("");
   const [toAccount, setToAccount] = useState("");
-  const [dataTransferUser, setDataTransferUser] = useState();
+  const [dataTransferUser, setDataTransferUser] = useState([]);
+  const navigate = useNavigate();
 
   const handleClick = () => {
-    if(accountNumber == ""){
+    if (accountNumber == "") {
       toast.error("Please Input Account Number");
       return
-    }else if(transferAmount == ""){
+    } else if (transferAmount == "") {
       toast.error("Please Input Amount");
       return
-    }else if(transferAmount > dataUser?.data?.balance){
+    } else if (transferAmount > dataUser?.data?.balance) {
       toast.error("Please Input Amount Not More Than Balance");
       return
     }
@@ -46,12 +47,17 @@ const TransferForm = () => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            "token": token
+            Authorization: "Bearer " + token
           },
         });
 
         const data = await response.json();
         setDataUser(data);
+
+        if(data.message == 'JWT token expired'){
+          toast.error("Sesion Expired");
+          navigate("/login");
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -66,7 +72,7 @@ const TransferForm = () => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            "token": token
+            Authorization: "Bearer " + token
           },
         });
 
@@ -80,10 +86,23 @@ const TransferForm = () => {
     fetchTransferData();
   }, []);
 
+  const formatRupiah = (value) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    }).format(value);
+  };
+
+  const parseRupiah = (value) => {
+    return value.replace(/[^0-9]/g, "");
+  };
+
+  const isFormValid = transferAmount == 0 || accountNumber == "" ? true : false 
 
   return (
     <>
-      <div className="ml-5 mt-5 text-[14px] flex gap-2">
+      {/* <div className="ml-5 mt-5 text-[14px] flex gap-2">
         <p className="">
           <NavLink to="/" className="text-[#ABA7AF]">
             Dashboard
@@ -93,7 +112,7 @@ const TransferForm = () => {
         <p className="text-[#9F2BFB] underline">
           Transfer
         </p>
-      </div>
+      </div> */}
       <div className="max-w-md mx-auto mt-2 p-8 rounded-3xl shadow-lg bg-white">
         <h2 className="text-2xl font-semibold text-center mb-6">Transfer</h2>
 
@@ -120,7 +139,7 @@ const TransferForm = () => {
             <img src={walletLogo} alt="wallet" className="w-10 h-10" />
             <div>
               <p className="text-sm">Wally Balance</p>
-              <p className="font-semibold">{dataUser?.data?.balance}</p>
+              <p className="font-semibold">{formatRupiah(dataUser?.data?.balance)}</p>
             </div>
           </div>
         </div>
@@ -129,21 +148,24 @@ const TransferForm = () => {
           <p className="text-xs text-gray-700 mb-1">Transfer Amount</p>
           <div className="flex">
 
-            <p className="text-2xl font-bold text-purple-800">Rp</p>
-
             <input
-              type="number"
-              value={transferAmount}
-              min={10000}
-              onChange={(e) => setTransferAmount(e?.target?.value)}
+              type="text"
+              value={formatRupiah(transferAmount)}
+              onChange={(e) => {
+                const rawValue = parseRupiah(e.target.value);
+                setTransferAmount(rawValue);
+              }}
               className="bg-purple-50 text-2xl font-bold text-purple-800 focus:outline-none" />
           </div>
           <p className="text-xs text-gray-400 mt-1">Minimum Rp10.000</p>
         </div>
 
         <button
-          className="w-full bg-[#9F2BFB] hover:bg-[#8b23dc] text-white font-semibold py-2 rounded-lg"
-          onClick={handleClick}
+          className={`w-full mt-5 py-2 rounded-xl font-semibold ${ !isFormValid
+            ? "bg-[#9F2BFB] hover:bg-[#8b23dc] text-white"
+            : "bg-gray-300 text-gray-500 cursor-not-allowed"
+          }`}
+          onClick={handleClick} disabled={isFormValid}
         >
           Next
         </button>

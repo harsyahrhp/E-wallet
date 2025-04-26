@@ -12,7 +12,6 @@ import { useAuth } from "../contexts/Auth";
 
 const RegisterPage = () => {
   const { changeStatus, statusRegis } = useAuth();
-  console.log(statusRegis)
 
   return (
     <div className="flex min-h-screen overflow-hidden dark:text-white">

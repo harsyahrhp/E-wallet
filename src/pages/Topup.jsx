@@ -7,8 +7,7 @@ import { useAuth } from "../contexts/Auth";
 
 const TopupPage = () => {
     const { statusTopup } = useAuth();
-
-    console.log(statusTopup)
+    
     return (
         <>
             <Navbar />

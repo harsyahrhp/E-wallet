@@ -4,7 +4,7 @@ import walletLogo from "../assets/logo-wallet.png";
 import { useAuth } from "../contexts/Auth";
 
 const TopupMethod = () => {
-  const { changeStatusTopup } = useAuth();
+  const { changeStatusTopup, topupForm, setTopupForm } = useAuth();
   const [amount, setAmount] = useState(0);
   const [method, setMethod] = useState("");
   const [cardNumber, setcardNumber] = useState(0);
@@ -17,7 +17,7 @@ const TopupMethod = () => {
 
   return (
     <div className="max-w-sm mx-auto bg-white shadow-xl rounded-3xl p-6 text-center mt-10">
-      <h2 className="text-2xl font-semibold mb-4">Debit Card</h2>
+      <h2 className="text-2xl font-semibold mb-4">{topupForm.method}</h2>
 
       <div className="flex justify-between items-center bg-white border shadow rounded-xl p-4 mb-2">
         <div className="flex items-center gap-3">

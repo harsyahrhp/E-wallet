@@ -2,6 +2,7 @@ import { CheckCircle } from "lucide-react";
 import profile from "../assets/profile.png";
 import { NavLink, useNavigate } from "react-router";
 import { useAuth } from "../contexts/Auth";
+import { CircleUserRound } from "lucide-react";
 
 const TransferStatus = () => {
   const { changeStatusTransfer, transferStatus, setTransferStatus } = useAuth();
@@ -18,9 +19,17 @@ const TransferStatus = () => {
   const minutes = now.getMinutes().toString().padStart(2, '0');
 
   const formatted = `${day} ${month} ${year}, ${hours}.${minutes}`;
+
+  const formatRupiah = (value) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    }).format(value);
+  };
   return (
     <>
-      <div className="ml-5 mt-5 text-[14px] flex gap-2">
+      {/* <div className="ml-5 mt-5 text-[14px] flex gap-2">
         <p className="">
           <NavLink to="/" className="text-[#ABA7AF]">
             Dashboard
@@ -42,7 +51,7 @@ const TransferStatus = () => {
         <p className="text-[#9F2BFB] underline">
           Transfer Status
         </p>
-      </div>
+      </div> */}
       <div className="max-w-sm mx-auto mt-2 p-8 rounded-3xl shadow-lg bg-white text-center">
         <CheckCircle className="mx-auto text-green-500" size={48} />
         <h2 className="text-2xl font-semibold mt-4">Transfer Successful</h2>
@@ -52,7 +61,8 @@ const TransferStatus = () => {
           <div>
             <p className="text-sm text-gray-500">From</p>
             <div className="flex items-center gap-3 p-3 border rounded-lg shadow-sm">
-              <img src={profile} alt="Sender" className="w-10 h-10 rounded-full" />
+              {/* <img src={profile} alt="Sender" className="w-10 h-10 rounded-full" /> */}
+              <CircleUserRound className="text-purple-600 w-10 h-10 mr-2" />
               <div>
                 <p className="font-medium">{transferStatus.fromName}</p>
                 <p className="text-gray-500 text-sm">{transferStatus.fromAccountnum}</p>
@@ -63,7 +73,8 @@ const TransferStatus = () => {
           <div>
             <p className="text-sm text-gray-500">To</p>
             <div className="flex items-center gap-3 p-3 border rounded-lg shadow-sm">
-              <img src={profile} alt="Receiver" className="w-10 h-10 rounded-full" />
+              {/* <img src={profile} alt="Receiver" className="w-10 h-10 rounded-full" /> */}
+              <CircleUserRound className="text-purple-600 w-10 h-10 mr-2" />
               <div>
                 <p className="font-medium">{transferStatus.toName}</p>
                 <p className="text-gray-500 text-sm">{transferStatus.toAccountnum}</p>
@@ -74,7 +85,7 @@ const TransferStatus = () => {
           <div className="text-sm text-gray-500">
             {/* <p>Notes <span className="float-right">-</span></p> */}
             {/* <p>Reference Number <span className="float-right">TRF20250420</span></p> */}
-            <p>Amount <span className="float-right font-semibold text-black">Rp{transferStatus.amount}</span></p>
+            <p>Amount <span className="float-right font-semibold text-black">{formatRupiah(transferStatus.amount)}</span></p>
           </div>
         </div>
 

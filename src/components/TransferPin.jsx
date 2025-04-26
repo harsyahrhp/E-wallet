@@ -27,7 +27,6 @@ const TransferPin = () => {
 
   const handleClick = async () => {
     dataTF.pin = pin.join("");
-    console.log(dataTF)
     // changeStatusTransfer("TransferStatus");
 
     const token = localStorage.getItem("token");
@@ -36,7 +35,7 @@ const TransferPin = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          "token": token
+          Authorization: "Bearer " + token
         },
         body: JSON.stringify(dataTF)
       });
@@ -57,7 +56,7 @@ const TransferPin = () => {
 
   return (
     <>
-      <div className="ml-5 mt-5 text-[14px] flex gap-2">
+      {/* <div className="ml-5 mt-5 text-[14px] flex gap-2">
         <p className="">
           <NavLink to="/" className="text-[#ABA7AF]">
             Dashboard
@@ -75,7 +74,7 @@ const TransferPin = () => {
         <p className="text-[#9F2BFB] underline">
           PIN
         </p>
-      </div>
+      </div> */}
       <div className="max-w-sm mx-auto mt-2 p-8 rounded-3xl shadow-lg bg-white text-center">
         <h2 className="text-2xl font-semibold mb-4">PIN</h2>
         <p className="text-sm mb-6 text-gray-600">Enter PIN</p>

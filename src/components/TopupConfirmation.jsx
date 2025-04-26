@@ -2,6 +2,7 @@
 import profile from "../assets/profile.png";
 import { NavLink, useNavigate } from "react-router";
 import { useAuth } from "../contexts/Auth";
+import { CircleUserRound } from "lucide-react";
 
 const TopupConfirmation = () => {
   const { changeStatusTopup } = useAuth();
@@ -20,7 +21,7 @@ const TopupConfirmation = () => {
           <div className="mt-2">
             <p className="text-sm text-gray-500">Debit Card Topup</p>
             <div className="flex items-center gap-3 p-3 border rounded-lg shadow-sm">
-              <img src={profile} alt="Sender" className="w-10 h-10 rounded-full" />
+              <CircleUserRound className="text-purple-600" />
               <div className="text-gray-500 text-sm">
                 <p>111888111888</p>
                 <p>EXP 05-2020</p>

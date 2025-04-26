@@ -2,17 +2,12 @@ import profile from "../assets/profile.png";
 import { NavLink, useNavigate } from "react-router";
 import { useAuth } from "../contexts/Auth";
 import { useEffect, useState } from "react";
+import { CircleUserRound } from "lucide-react";
 
 const TransferConfirmation = () => {
   const { changeStatusTransfer, transferForm } = useAuth();
   const [dataUser, setDataUser] = useState("");
   const [dataTF, setDataTF] = useState("");
-  const recipient = {
-    name: "Ahmad Jaelani",
-    account: "111777111777",
-  };
-
-  const amount = 100000;
 
   const handleClick = () => {
     changeStatusTransfer("TransferPin");
@@ -26,7 +21,7 @@ const TransferConfirmation = () => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            "token": token
+            Authorization: "Bearer " + token
           },
         });
 
@@ -41,9 +36,17 @@ const TransferConfirmation = () => {
     fetchData();
   }, []);
 
+  const formatRupiah = (value) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    }).format(value);
+  };
+
   return (
     <>
-      <div className="ml-5 mt-5 text-[14px] flex gap-2">
+      {/* <div className="ml-5 mt-5 text-[14px] flex gap-2">
         <p className="">
           <NavLink to="/" className="text-[#ABA7AF]">
             Dashboard
@@ -57,14 +60,15 @@ const TransferConfirmation = () => {
         <p className="text-[#9F2BFB] underline">
           Confirmation
         </p>
-      </div>
+      </div> */}
       <div className="max-w-md mx-auto mt-2 p-8 rounded-3xl shadow-lg bg-white">
         <h2 className="text-2xl font-semibold text-center mb-6">Confirmation</h2>
 
         <div className="mb-6">
           <p className="text-sm mb-1">Recipient</p>
           <div className="flex items-center p-4 border rounded-lg shadow-sm">
-            <img src={profile} alt="recipient" className="w-8 h-8 rounded-full mr-3" />
+            {/* <img src={profile} alt="recipient" className="w-8 h-8 rounded-full mr-3" /> */}
+            <CircleUserRound className="text-purple-600 w-10 h-10 mr-2" />
             <div>
               <p className="font-medium">{dataTF.accountName}</p>
               <p className="text-sm text-gray-500">{dataTF.toAccountnum}</p>
@@ -75,7 +79,8 @@ const TransferConfirmation = () => {
         <div className="mb-6">
           <p className="text-sm mb-1">Source of Fund</p>
           <div className="flex items-center p-4 border rounded-lg shadow-sm">
-            <img src={profile} alt="source" className="w-8 h-8 rounded-full mr-3" />
+            {/* <img src={profile} alt="source" className="w-8 h-8 rounded-full mr-3" /> */}
+            <CircleUserRound className="text-purple-600 w-10 h-10 mr-2" />
             <div>
               <p className="font-medium">{dataUser?.data?.fullname}</p>
               <p className="text-sm text-gray-500">{dataUser?.data?.accountnum}</p>
@@ -89,7 +94,7 @@ const TransferConfirmation = () => {
         </div>
         <div className="flex justify-between border-b pb-3 mb-6">
           <span className="text-sm">Amount</span>
-          <span className="font-semibold">Rp{dataTF?.amount?.toLocaleString("id-ID")}</span>
+          <span className="font-semibold">{formatRupiah(dataTF?.amount)}</span>
         </div>
 
         <button

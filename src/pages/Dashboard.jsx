@@ -1,9 +1,24 @@
 import Navbar from "../components/navbar";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import DashboardTable from "../components/DashboardTable";
+import { LogIn, Eye, EyeOff } from "lucide-react";
+import DashboardDonutChart from "../components/DashboardDonutChart";
+import DashboardLineChart from "../components/DashboardLineChart";
 
 const DashboardPage = () => {
     const [dateTime, setDateTime] = useState(new Date());
     const [dataUser, setDataUser] = useState("");
+    const [dataFinance, setDataFinance] = useState("");
+    const [showBalance, setShowBalance] = useState(true);
+    const [showBalanceFinace, setShowBalanceFinance] = useState(true);
+
+    const toggleBalance = () => {
+        setShowBalance(prev => !prev);
+    };
+
+    const toggleBalanceFinance = () => {
+        setShowBalanceFinance(prev => !prev);
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -13,66 +28,39 @@ const DashboardPage = () => {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        "token": token
+                        Authorization: "Bearer " + token
                     },
                 });
 
                 const data = await response.json();
                 setDataUser(data);
-                console.log(data);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         };
 
         fetchData();
+
+        const financeData = async () => {
+            const token = localStorage.getItem("token");
+            try {
+                const response = await fetch('http://localhost:8080/api/transactions/summary/this_month', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: "Bearer " + token
+                    },
+                });
+
+                const data = await response.json();
+                setDataFinance(data);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        financeData();
     }, []);
-
-    const transactions = [
-        {
-            date: "10.04 - 20 April 2025",
-            type: "Transfer",
-            name: "Sandy Yuyu",
-            notes: "Ganti Kopi",
-            amount: 27000,
-        },
-        {
-            date: "10.04 - 20 April 2025",
-            type: "Topup",
-            name: "Mei Mei",
-            notes: "",
-            amount: 27000,
-        },
-        {
-            date: "10.04 - 20 April 2025",
-            type: "Transfer",
-            name: "Ahmad Jaelani",
-            notes: "Text",
-            amount: 27000,
-        },
-        {
-            date: "10.04 - 20 April 2025",
-            type: "Topup",
-            name: "Mei Mei",
-            notes: "",
-            amount: 27000,
-        },
-        {
-            date: "10.04 - 20 April 2025",
-            type: "Transfer",
-            name: "Ahmad Jaelani",
-            notes: "",
-            amount: 27000,
-        },
-        {
-            date: "10.04 - 20 April 2025",
-            type: "Topup",
-            name: "Mei Mei",
-            notes: "",
-            amount: 27000,
-        },
-    ];
-
 
     useEffect(() => {
         const intervalId = setInterval(() => {
@@ -119,60 +107,67 @@ const DashboardPage = () => {
 
                 <div className="flex flex-wrap gap-4 mt-5">
                     {/* Account Info */}
-                    <div className="bg-gradient-to-br from-purple-600 to-purple-900 text-white p-6 rounded-2xl shadow-lg w-full max-w-xs">
-                        <p className="text-sm">Account Number:</p>
-                        <p className="text-lg font-semibold">{dataUser?.data?.accountnum}</p>
-                        <p className="mt-4 text-sm">Total Balance</p>
-                        <p className="text-2xl font-bold">{formatRupiah(dataUser?.data?.balance)}</p>
+                    <div className="flex items-center bg-gradient-to-br from-purple-600 to-purple-900 text-white p-6 rounded-2xl shadow-lg w-full max-w-xs">
+                        <div>
+                            <p className="text-sm">Account Number:</p>
+                            <p className="text-lg font-semibold">{dataUser?.data?.accountnum}</p>
+                            <p className="mt-4 text-sm">Total Balance</p>
+                            <div className="flex">
+                                <p className="text-2xl font-bold">{showBalance ? formatRupiah(dataUser?.data?.balance) : "***********"}</p>
+                                <button onClick={toggleBalance} className="text-white ml-2">
+                                    {showBalance ? <EyeOff size={20} /> : <Eye size={20} />}
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
                     {/* Financial Summary */}
-                    <div className="flex-1 space-y-4">
-                        <div>
-                            <h3 className="text-lg font-semibold">Your Financial Records</h3>
-                            <p className="text-sm text-gray-500">1 Apr 2025 - 30 Apr 2025</p>
-                        </div>
-                        <div className="flex">
-                            <div className="flex-1 border rounded-md p-4 shadow-sm text-green-600">
-                                <p className="font-semibold">Income</p>
-                                {/* <p>{formatRupiah(500000)}</p> */}
+                    <div className="flex-1 space-y-4 ml-8">
+                        <div className="flex justify-between">
+                            <div>
+                                <h3 className="text-lg font-semibold">Your Financial Records</h3>
+                                <p className="text-sm text-gray-500">{formattedStartDate} - {formattedEndDate}</p>
                             </div>
-                            <div className="flex-1 border rounded-sm p-4 shadow-sm text-red-600">
-                                <p className="font-semibold">Expense</p>
-                                {/* <p>{formatRupiah(300000)}</p> */}
+
+                            <div className="flex items-end">
+                                <button onClick={toggleBalanceFinance} className="text-purple-600">
+                                    {showBalanceFinace ? <EyeOff size={20} /> : <Eye size={20} />}
+                                </button>
                             </div>
                         </div>
-                        <p className="text-sm text-green-600">Difference {formatRupiah(200000)}</p>
+                        <div className="flex gap-8">
+                            <div className="flex w-1/2 border rounded-md p-4 shadow-sm text-green-600 justify-center items-center">
+                                <div>
+                                    <div className="flex gap-2">
+                                        <LogIn className="text-green-600" />
+                                        <p className="font-semibold">Income</p>
+                                    </div>
+                                    <p>{showBalanceFinace ? (formatRupiah(dataFinance?.data?.totalIncome)) : "*********"}</p>
+                                </div>
+                            </div>
+                            <div className="flex w-1/2 border rounded-md p-4 shadow-sm text-red-600 justify-center items-center">
+                                <div>
+                                    <div className="flex gap-2">
+                                        <LogIn className="text-red-600" />
+                                        <p className="font-semibold">Expense</p>
+                                    </div>
+                                    <p>{showBalanceFinace ? formatRupiah(dataFinance?.data?.totalExpense): "***********"}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <p className="text-sm text-green-600">Difference {showBalanceFinace ? (formatRupiah(dataFinance?.data?.totalIncome - dataFinance?.data?.totalExpense)) : "***********"}</p>
                     </div>
                 </div>
 
-                {/* Transaction Table */}
-                <div className="mt-6 overflow-x-auto">
-                    <table className="w-full table-auto text-sm border-separate border-spacing-y-2">
-                        <thead className="text-left text-purple-700">
-                            <tr>
-                                <th>Date & Time</th>
-                                <th>Type</th>
-                                <th>From/To</th>
-                                <th>Notes</th>
-                                <th>Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {transactions.map((trx, index) => (
-                                <tr key={index} className="bg-white rounded-lg shadow-sm">
-                                    <td>{trx.date}</td>
-                                    <td>{trx.type}</td>
-                                    <td>{trx.name}</td>
-                                    <td>{trx.notes || "-"}</td>
-                                    <td className={trx.type === "Topup" ? "text-green-500" : "text-red-500"}>
-                                        {trx.type === "Topup" ? "+" : "-"}{formatRupiah(trx.amount)}
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                <div className="flex flex-wrap gap-8 mt-8">
+
+                    <DashboardDonutChart />
+
+                    <DashboardLineChart />
                 </div>
+
+
+                <DashboardTable />
             </div>
         </>
     );

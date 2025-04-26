@@ -52,10 +52,6 @@ const RegisterPin = () => {
         ))}
       </div>
 
-      <p className="text-sm text-gray-500 mb-6 cursor-pointer hover:text-purple-600">
-        Forget PIN?
-      </p>
-
       <button
         className="w-full bg-[#9F2BFB] hover:bg-[#8b23dc] text-white font-semibold py-2 rounded-lg"
         onClick={handleClick}
