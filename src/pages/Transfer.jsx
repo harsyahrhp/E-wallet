@@ -11,14 +11,13 @@ const TransferPage = () => {
     return (
         <>
             <Navbar />
-            {statusTransfer == "TransferForm" && <TransferForm />}
-            {statusTransfer == "TransferConfirmation" && <TransferConfirmation />}
-            {statusTransfer == "TransferPin" && <TransferPin />}
-            {statusTransfer == "TransferStatus" && <TransferStatus />}
-            {/* <TransferForm /> */}
-            {/* <TransferConfirmation /> */}
-            {/* <TransferPin /> */}
-            {/* <TransferStatus /> */}
+            <div className="min-h-screen bg-white dark:bg-black">
+                {statusTransfer == "TransferForm" && <TransferForm />}
+                {statusTransfer == "TransferConfirmation" && <TransferConfirmation />}
+                {statusTransfer == "TransferPin" && <TransferPin />}
+                {statusTransfer == "TransferStatus" && <TransferStatus />}
+            </div>
+
         </>
 
     );

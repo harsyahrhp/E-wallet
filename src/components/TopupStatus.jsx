@@ -23,7 +23,10 @@ const TopupStatus = () => {
   
   return (
     <>
-      <div className="max-w-sm mx-auto mt-10 p-8 rounded-3xl shadow-lg bg-white text-center">
+
+    <div className="pt-10">
+
+      <div className="max-w-sm mx-auto p-8 rounded-3xl shadow-lg bg-white text-center">
         <CheckCircle className="mx-auto text-green-500" size={48} />
         <h2 className="text-2xl font-semibold mt-4">Topup Successful</h2>
         <p className="text-gray-500 mb-8">{formatted}</p>
@@ -52,7 +55,9 @@ const TopupStatus = () => {
             Back to dashboard
           </NavLink>
         </button>
-      </div></>
+      </div>
+    </div>
+      </>
   );
 };
 

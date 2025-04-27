@@ -113,7 +113,9 @@ const TransferForm = () => {
           Transfer
         </p>
       </div> */}
-      <div className="max-w-md mx-auto mt-2 p-8 rounded-3xl shadow-lg bg-white">
+      <div className="pt-8">
+
+      <div className="max-w-md mx-auto p-8 rounded-3xl shadow-lg bg-white">
         <h2 className="text-2xl font-semibold text-center mb-6">Transfer</h2>
 
         <div className="relative">
@@ -169,7 +171,10 @@ const TransferForm = () => {
         >
           Next
         </button>
-      </div></>
+      </div>
+      </div>
+      
+      </>
   );
 };
 

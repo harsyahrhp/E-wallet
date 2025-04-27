@@ -15,40 +15,29 @@ export const AuthProvider = ({ children }) => {
   const [transferStatus, setTransferStatus] = useState(null);
   const [topupForm, setTopupForm] = useState(null);
   const [topupStatus, setTopupStatus] = useState(null);
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const navigate = useNavigate();
+
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    const theme = localStorage.getItem("theme");
+    setIsDarkMode(theme === "true")
     if (token) {
-      setUser({token});
+      setUser({ token });
     }
     setLoading(false);
-
-    // const fetchData = async () => {
-    //   const token = localStorage.getItem("token");
-    //   try {
-    //     const response = await fetch('http://localhost:8080/api/users/me', {
-    //       method: 'GET',
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //         Authorization: "Bearer " + token
-    //       },
-    //     });
-
-    //     const data = await response.json();
-    //     if(data.message == 'JWT token expired'){
-    //       toast.error("Sesion Expired");
-    //       navigate("/login");
-    //     }
-    //     // setDataUser(data);
-    //     // console.log(data);
-    //   } catch (error) {
-    //     console.error("Error fetching data:", error);
-    //   }
-    // };
-
-    // fetchData();
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("theme", isDarkMode);
+    const html = document.documentElement;
+    if (isDarkMode) {
+      html.classList.add("dark");
+    } else {
+      html.classList.remove("dark");
+    }
+  }, [isDarkMode]);
 
   const login = (token) => {
     localStorage.setItem("token", token);
@@ -74,10 +63,12 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading, 
-    changeStatus, statusRegis, changeStatusTransfer, statusTransfer, changeStatusTopup, statusTopup,
-    accountnum, setAccountnum, pinRegistration, setPinRegistration, transferForm, setTransferForm,
-    transferStatus, setTransferStatus, topupForm, setTopupForm, topupStatus, setTopupStatus}}>
+    <AuthContext.Provider value={{
+      user, login, logout, loading,
+      changeStatus, statusRegis, changeStatusTransfer, statusTransfer, changeStatusTopup, statusTopup,
+      accountnum, setAccountnum, pinRegistration, setPinRegistration, transferForm, setTransferForm,
+      transferStatus, setTransferStatus, topupForm, setTopupForm, topupStatus, setTopupStatus, isDarkMode, setIsDarkMode
+    }}>
       {children}
     </AuthContext.Provider>
   );

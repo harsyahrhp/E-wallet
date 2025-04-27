@@ -117,7 +117,10 @@ const TopupForm = () => {
   }, []);
 
   return (
-    <div className="max-w-sm mx-auto bg-white shadow-xl rounded-3xl p-6 text-center mt-10">
+    
+    <div className="pt-10">
+
+    <div className="max-w-sm mx-auto bg-white shadow-xl rounded-3xl p-6 text-center ">
       <h2 className="text-2xl font-semibold mb-4">Topup</h2>
 
       <div className="flex justify-between items-center bg-white border shadow rounded-xl p-4 mb-2">
@@ -206,6 +209,7 @@ const TopupForm = () => {
         onClick={handleClick} disabled={isFormValid}>
         Next
       </button>
+    </div>
     </div>
   );
 };

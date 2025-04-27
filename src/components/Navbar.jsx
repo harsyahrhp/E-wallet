@@ -9,8 +9,8 @@ import { useAuth } from "../contexts/Auth";
 
 const Navbar = () => {
   const [openDropdown, setOpenDropdown] = useState(false);
-  const {statusTransfer, statusTopup} = useAuth();
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const {statusTransfer, statusTopup, setIsDarkMode, isDarkMode} = useAuth();
+  // const [isDarkMode, setIsDarkMode] = useState(false);
 
   const changeTransfer = () =>{
     statusTransfer("TransferForm")
@@ -21,19 +21,9 @@ const Navbar = () => {
   }
 
   const toggleDarkMode = () => {
-    setIsDarkMode((prev) => !prev);
+    setIsDarkMode(!isDarkMode);
   };
-
-  // Handle efek dark mode di html
-  useEffect(() => {
-    const html = document.documentElement;
-    if (isDarkMode) {
-      html.classList.add("dark");
-    } else {
-      html.classList.remove("dark");
-    }
-  }, [isDarkMode]);
-
+  
   return (
     <nav className="flex items-center justify-between px-6 py-3 shadow-sm bg-white dark:bg-black">
       <div className="flex items-center gap-8">

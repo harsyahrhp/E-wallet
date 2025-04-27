@@ -49,7 +49,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex min-h-screen overflow-hidden dark:text-white">
+    <div className="flex min-h-screen overflow-hidden ">
       <div className="flex min-h-full flex-1 flex-col justify-center items-center px-6 py-12 lg:px-8">
         <div className="border-[1px] p-[2rem] rounded-[40px] shadow-md">
 
@@ -94,7 +94,7 @@ const LoginPage = () => {
               </div> */}
 
               <div>
-                <p className="mt-10 mb-2 text-center text-[12px] dark:text-gray-300">
+                <p className="mt-10 mb-2 text-center text-[12px] ">
                   Don’t have an account yet?{" "}
                   <NavLink to="/register" className="text-[#9F2BFB] underline">
                     Register
@@ -102,7 +102,7 @@ const LoginPage = () => {
                 </p>
                 <button
                   type="submit"
-                  className="flex px-[2rem] py-[0.5rem] justify-self-center rounded-[4px] bg-[#9F2BFB] font-semibold text-white dark:text-black drop-shadow-xl hover:drop-shadow-none hover:shadow-inner"
+                  className="flex px-[2rem] py-[0.5rem] justify-self-center rounded-[4px] bg-[#9F2BFB] font-semibold text-white drop-shadow-xl hover:drop-shadow-none hover:shadow-inner"
                 >
                   Login
                 </button>

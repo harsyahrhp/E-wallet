@@ -7,14 +7,16 @@ import { useAuth } from "../contexts/Auth";
 
 const TopupPage = () => {
     const { statusTopup } = useAuth();
-    
+
     return (
         <>
             <Navbar />
-            {statusTopup == "TopupForm" && <TopupForm />}
-            {statusTopup == "TopupMethod" && <TopupMethod />}
-            {statusTopup == "TopupConfirmation" && <TopupConfirmation />}
-            {statusTopup == "TopupStatus" && <TopupStatus />}
+            <div className="min-h-screen bg-white dark:bg-black">
+                {statusTopup == "TopupForm" && <TopupForm />}
+                {statusTopup == "TopupMethod" && <TopupMethod />}
+                {statusTopup == "TopupConfirmation" && <TopupConfirmation />}
+                {statusTopup == "TopupStatus" && <TopupStatus />}
+            </div>
         </>
     );
 };

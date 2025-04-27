@@ -57,8 +57,6 @@ const RegisterForm = () => {
   };
 
   return (
-    // <div className="flex min-h-screen overflow-hidden dark:text-white">
-    //   <div className="flex min-h-full flex-1 flex-col justify-center items-center px-6 py-12 lg:px-8">
     <div className="border-[1px] py-[2rem] px-[3rem] rounded-[40px] shadow-md">
 
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -133,7 +131,7 @@ const RegisterForm = () => {
           </div>
 
           <div>
-            <p className="mt-10 mb-2 text-center text-[12px] dark:text-gray-300">
+            <p className="mt-10 mb-2 text-center text-[12px]">
               Already have an account?{" "}
               <NavLink to="/login" className="text-[#9F2BFB] underline">
                 Login
@@ -141,7 +139,7 @@ const RegisterForm = () => {
             </p>
             <button
               type="submit"
-              className="flex px-[2rem] py-[0.5rem] justify-self-center rounded-[4px] bg-[#9F2BFB] font-semibold text-white dark:text-black drop-shadow-xl hover:drop-shadow-none hover:shadow-inner"
+              className="flex px-[2rem] py-[0.5rem] justify-self-center rounded-[4px] bg-[#9F2BFB] font-semibold text-white drop-shadow-xl hover:drop-shadow-none hover:shadow-inner"
             >
               Register
             </button>

@@ -61,6 +61,9 @@ const TransferConfirmation = () => {
           Confirmation
         </p>
       </div> */}
+
+      <div className="pt-8">
+
       <div className="max-w-md mx-auto mt-2 p-8 rounded-3xl shadow-lg bg-white">
         <h2 className="text-2xl font-semibold text-center mb-6">Confirmation</h2>
 
@@ -103,7 +106,10 @@ const TransferConfirmation = () => {
         >
           Confirm
         </button>
-      </div></>
+      </div>
+      </div>
+      
+      </>
   );
 };
 

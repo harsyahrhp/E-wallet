@@ -109,7 +109,7 @@ const DashboardTable = () => {
             <h2 className="font-semibold text-lg mb-2">Your Transaction History</h2>
 
             <div className="overflow-x-auto">
-                <table className="w-full table-auto text-sm border-separate border-spacing-y-2">
+                <table className="w-full table-auto text-sm border-separate border-spacing-y-1 rounded-md p-2 dark:bg-purple-600">
                     <thead className="text-left text-purple-700 bg-[#F0E8FF]">
                         <tr className="h-9">
                             <th>Date & Time</th>

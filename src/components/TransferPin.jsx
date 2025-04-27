@@ -75,33 +75,38 @@ const TransferPin = () => {
           PIN
         </p>
       </div> */}
-      <div className="max-w-sm mx-auto mt-2 p-8 rounded-3xl shadow-lg bg-white text-center">
-        <h2 className="text-2xl font-semibold mb-4">PIN</h2>
-        <p className="text-sm mb-6 text-gray-600">Enter PIN</p>
 
-        <div className="flex justify-center gap-2 mb-4">
-          {pin.map((digit, index) => (
-            <input
-              key={index}
-              type="password"
-              maxLength="1"
-              className="w-12 h-12 text-center border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-lg"
-              value={digit}
-              onChange={(e) => handleChange(e.target, index)} />
-          ))}
-        </div>
+      <div className="pt-8">
+        <div className="max-w-sm mx-auto mt-2 p-8 rounded-3xl shadow-lg bg-white text-center">
+          <h2 className="text-2xl font-semibold mb-4">PIN</h2>
+          <p className="text-sm mb-6 text-gray-600">Enter PIN</p>
 
-        {/* <p className="text-sm text-gray-500 mb-6 cursor-pointer hover:text-purple-600">
+          <div className="flex justify-center gap-2 mb-4">
+            {pin.map((digit, index) => (
+              <input
+                key={index}
+                type="password"
+                maxLength="1"
+                className="w-12 h-12 text-center border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-lg"
+                value={digit}
+                onChange={(e) => handleChange(e.target, index)} />
+            ))}
+          </div>
+
+          {/* <p className="text-sm text-gray-500 mb-6 cursor-pointer hover:text-purple-600">
           Forget PIN?
         </p> */}
 
-        <button
-          className="w-full bg-[#9F2BFB] hover:bg-[#8b23dc] text-white font-semibold py-2 rounded-lg"
-          onClick={handleClick}
-        >
-          Confirm
-        </button>
-      </div></>
+          <button
+            className="w-full bg-[#9F2BFB] hover:bg-[#8b23dc] text-white font-semibold py-2 rounded-lg"
+            onClick={handleClick}
+          >
+            Confirm
+          </button>
+        </div>
+      </div>
+
+    </>
   );
 };
 

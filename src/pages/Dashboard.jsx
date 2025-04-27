@@ -100,9 +100,9 @@ const DashboardPage = () => {
                 {formattedStartDate} - {formattedEndDate}
             </p> */}
 
-            <div className="p-6">
+            <div className="p-6 dark:bg-black">
                 {/* Header */}
-                <h2 className="text-xl font-semibold">Welcome, {dataUser?.data?.fullname}!</h2>
+                <h2 className="text-xl font-semibold dark:text-purple-600">Welcome, {dataUser?.data?.fullname}!</h2>
                 <p className="text-sm text-gray-500">Your wallet’s all set and secure. Let’s get started.</p>
 
                 <div className="flex flex-wrap gap-4 mt-5">
@@ -125,7 +125,7 @@ const DashboardPage = () => {
                     <div className="flex-1 space-y-4 ml-8">
                         <div className="flex justify-between">
                             <div>
-                                <h3 className="text-lg font-semibold">Your Financial Records</h3>
+                                <h3 className="text-lg font-semibold dark:text-purple-600">Your Financial Records</h3>
                                 <p className="text-sm text-gray-500">{formattedStartDate} - {formattedEndDate}</p>
                             </div>
 

@@ -14,7 +14,7 @@ const RegisterPage = () => {
   const { changeStatus, statusRegis } = useAuth();
 
   return (
-    <div className="flex min-h-screen overflow-hidden dark:text-white">
+    <div className="flex min-h-screen overflow-hidden">
       <div className="flex min-h-full flex-1 flex-col justify-center items-center px-6 py-12 lg:px-8">
        {statusRegis === 'RegisterForm' && <RegisterForm />}
        {statusRegis === 'RegisterPin' && <RegisterPin />}
