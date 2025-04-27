@@ -1,4 +1,4 @@
-import Navbar from "../components/navbar";
+import NavbarPage from "../components/NavbarPage";
 import { useState, useEffect, useRef } from "react";
 import DashboardTable from "../components/DashboardTable";
 import { LogIn, Eye, EyeOff } from "lucide-react";
@@ -95,7 +95,7 @@ const DashboardPage = () => {
 
     return (
         <>
-            <Navbar />
+            <NavbarPage />
             {/* <p>
                 {formattedStartDate} - {formattedEndDate}
             </p> */}

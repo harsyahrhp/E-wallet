@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { CircleUserRound, Sun, Moon } from "lucide-react";
 import { useAuth } from "../contexts/Auth";
 
-const Navbar = () => {
+const NavbarPage = () => {
   const [openDropdown, setOpenDropdown] = useState(false);
   const {statusTransfer, statusTopup, setIsDarkMode, isDarkMode} = useAuth();
   // const [isDarkMode, setIsDarkMode] = useState(false);
@@ -90,4 +90,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default NavbarPage;

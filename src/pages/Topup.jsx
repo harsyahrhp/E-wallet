@@ -1,4 +1,4 @@
-import Navbar from "../components/navbar";
+import NavbarPage from "../components/NavbarPage";
 import TopupForm from "../components/TopupForm";
 import TopupMethod from "../components/TopupMethod";
 import TopupConfirmation from "../components/TopupConfirmation";
@@ -10,7 +10,7 @@ const TopupPage = () => {
 
     return (
         <>
-            <Navbar />
+            <NavbarPage />
             <div className="min-h-screen bg-white dark:bg-black">
                 {statusTopup == "TopupForm" && <TopupForm />}
                 {statusTopup == "TopupMethod" && <TopupMethod />}

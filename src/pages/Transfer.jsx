@@ -1,4 +1,4 @@
-import Navbar from "../components/navbar";
+import NavbarPage from "../components/NavbarPage";
 import TransferConfirmation from "../components/TransferConfirmation";
 import TransferForm from "../components/TransferForm";
 import TransferPin from "../components/TransferPin";
@@ -10,7 +10,7 @@ const TransferPage = () => {
 
     return (
         <>
-            <Navbar />
+            <NavbarPage />
             <div className="min-h-screen bg-white dark:bg-black">
                 {statusTransfer == "TransferForm" && <TransferForm />}
                 {statusTransfer == "TransferConfirmation" && <TransferConfirmation />}
