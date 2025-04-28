@@ -43,7 +43,7 @@ const TransferForm = () => {
     const fetchData = async () => {
       const token = localStorage.getItem("token");
       try {
-        const response = await fetch('http://localhost:8080/api/users/me', {
+        const response = await fetch('https://kelompok5.serverku.org/api/users/me', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ const TransferForm = () => {
     const fetchTransferData = async () => {
       const token = localStorage.getItem("token");
       try {
-        const response = await fetch('http://localhost:8080/api/users/all', {
+        const response = await fetch('https://kelompok5.serverku.org/api/users/all', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

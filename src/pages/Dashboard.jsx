@@ -24,7 +24,7 @@ const DashboardPage = () => {
         const fetchData = async () => {
             const token = localStorage.getItem("token");
             try {
-                const response = await fetch('http://localhost:8080/api/users/me', {
+                const response = await fetch('https://kelompok5.serverku.org/api/users/me', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ const DashboardPage = () => {
         const financeData = async () => {
             const token = localStorage.getItem("token");
             try {
-                const response = await fetch('http://localhost:8080/api/transactions/summary/this_month', {
+                const response = await fetch('https://kelompok5.serverku.org/api/transactions/summary/this_month', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -159,8 +159,8 @@ const DashboardPage = () => {
                     </div>
                 </div>
 
-                <div className="flex flex-wrap gap-8 mt-8">
-
+                <h2 className="font-semibold text-lg mt-8 mb-1">Your Money Reports</h2>
+                <div className="flex flex-wrap gap-8">
                     <DashboardDonutChart />
 
                     <DashboardLineChart />

@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, FileDown } from "lucide-react";
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 const DashboardTable = () => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -24,7 +26,7 @@ const DashboardTable = () => {
             params.append("page", page);
             params.append("size", limit);
 
-            const response = await fetch(`http://localhost:8080/api/transactions/me?${params.toString()}`, {
+            const response = await fetch(`https://kelompok5.serverku.org/api/transactions/me?${params.toString()}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -63,6 +65,20 @@ const DashboardTable = () => {
         if (page < totalPages) setPage(page + 1);
     };
 
+    const exportTransactionsToExcel = (transactions) => {
+        // Ubah data ke worksheet
+        const worksheet = XLSX.utils.json_to_sheet(transactions);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Transactions');
+
+        // Buat file Excel di memori
+        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+        // Simpan file
+        const data = new Blob([excelBuffer], { type: 'application/octet-stream' });
+        saveAs(data, 'transactions.xlsx');
+    };
+
     return (
         <>
             {/* Filter Inputs */}
@@ -78,7 +94,7 @@ const DashboardTable = () => {
                 </div>
 
                 <div className="flex gap-2">
-                    <div className="relative">
+                    <div className="relative mr-20">
                         <select
                             className="w-full border shadow rounded-lg px-8 pl-4 py-2 appearance-none focus:outline-none"
                             value={limit}
@@ -95,14 +111,22 @@ const DashboardTable = () => {
                         type="date"
                         className="border border-gray-300 p-2 rounded-md mr-2"
                         value={startDate}
+                        placeholder="From Date"
                         onChange={(e) => setStartDate(e.target.value)}
                     />
                     <input
                         type="date"
                         className="border border-gray-300 p-2 rounded-md"
                         value={endDate}
+                        placeholder="To Date"
                         onChange={(e) => setEndDate(e.target.value)}
                     />
+                    <button onClick={() => exportTransactionsToExcel(transactions)}>
+                        <div className="flex bg-green-600 text-white p-2 rounded-md">
+                            <FileDown></FileDown>
+                            Export to Excel
+                        </div>
+                    </button>
                 </div>
             </div>
 

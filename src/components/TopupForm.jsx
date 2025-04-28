@@ -46,7 +46,7 @@ const TopupForm = () => {
     const submitData = async () => {
       const token = localStorage.getItem("token");
       try {
-        const response = await fetch('http://localhost:8080/api/topup', {
+        const response = await fetch('https://kelompok5.serverku.org/api/topup', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ const TopupForm = () => {
     const fetchData = async () => {
       const token = localStorage.getItem("token");
       try {
-        const response = await fetch('http://localhost:8080/api/users/me', {
+        const response = await fetch('https://kelompok5.serverku.org/api/users/me', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

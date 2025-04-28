@@ -12,7 +12,7 @@ const DashboardDonutChart = () =>{
         const financeData = async () => {
             const token = localStorage.getItem("token");
             try {
-                const response = await fetch('http://localhost:8080/api/transactions/summary/this_month', {
+                const response = await fetch('https://kelompok5.serverku.org/api/transactions/summary/this_month', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ const DashboardDonutChart = () =>{
         const getDountChart = async () => {
             const token = localStorage.getItem("token");
             try {
-                const response = await fetch('http://localhost:8080/api/transactions/summary/donut/last_month', {
+                const response = await fetch('https://kelompok5.serverku.org/api/transactions/summary/donut/last_month', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

@@ -11,7 +11,7 @@ const DashboardLineChart = () => {
         const getLineChart = async () => {
             const token = localStorage.getItem("token");
             try {
-                const response = await fetch('http://localhost:8080/api/transactions/summary/monthly_chart', {
+                const response = await fetch('https://kelompok5.serverku.org/api/transactions/summary/monthly_chart', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
