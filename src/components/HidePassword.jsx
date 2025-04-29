@@ -6,7 +6,6 @@ function PasswordInput ({ label, value, onChange }) {
 
   return (
     <div className="relative mb-6">
-      {/* <label className="block text-sm mb-1">{label}</label> */}
       <input
         type={show ? "text" : "password"}
         value={value}

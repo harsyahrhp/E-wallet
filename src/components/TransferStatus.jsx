@@ -29,29 +29,6 @@ const TransferStatus = () => {
   };
   return (
     <>
-      {/* <div className="ml-5 mt-5 text-[14px] flex gap-2">
-        <p className="">
-          <NavLink to="/" className="text-[#ABA7AF]">
-            Dashboard
-          </NavLink>
-        </p>
-        <p className="text-[#ABA7AF]">{'>'}</p>
-        <p className="text-[#ABA7AF]">
-          Transfer
-        </p>
-        <p className="text-[#ABA7AF]">{'>'}</p>
-        <p className="text-[#ABA7AF]">
-          Confirmation
-        </p>
-        <p className="text-[#ABA7AF]">{'>'}</p>
-        <p className="text-[#ABA7AF]">
-          PIN
-        </p>
-        <p className="text-[#9F2BFB]">{'>'}</p>
-        <p className="text-[#9F2BFB] underline">
-          Transfer Status
-        </p>
-      </div> */}
       <div className="pt-8">
       <div className="max-w-sm mx-auto p-8 rounded-3xl shadow-lg bg-white text-center">
         <CheckCircle className="mx-auto text-green-500" size={48} />
@@ -62,7 +39,6 @@ const TransferStatus = () => {
           <div>
             <p className="text-sm text-gray-500">From</p>
             <div className="flex items-center gap-3 p-3 border rounded-lg shadow-sm">
-              {/* <img src={profile} alt="Sender" className="w-10 h-10 rounded-full" /> */}
               <CircleUserRound className="text-purple-600 w-10 h-10 mr-2" />
               <div>
                 <p className="font-medium">{transferStatus.fromName}</p>
@@ -74,7 +50,6 @@ const TransferStatus = () => {
           <div>
             <p className="text-sm text-gray-500">To</p>
             <div className="flex items-center gap-3 p-3 border rounded-lg shadow-sm">
-              {/* <img src={profile} alt="Receiver" className="w-10 h-10 rounded-full" /> */}
               <CircleUserRound className="text-purple-600 w-10 h-10 mr-2" />
               <div>
                 <p className="font-medium">{transferStatus.toName}</p>
@@ -84,8 +59,6 @@ const TransferStatus = () => {
           </div>
 
           <div className="text-sm text-gray-500">
-            {/* <p>Notes <span className="float-right">-</span></p> */}
-            {/* <p>Reference Number <span className="float-right">TRF20250420</span></p> */}
             <p>Amount <span className="float-right font-semibold text-black">{formatRupiah(transferStatus.amount)}</span></p>
           </div>
         </div>

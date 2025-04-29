@@ -1,9 +1,6 @@
 import logo from "../assets/logo.svg";
-import authBanner from "../assets/auth-picture.svg";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router";
-// import { Moon, Sun } from "lucide-react";
-// import { useTheme } from "../contexts/ThemeContext";
 import { useAuth } from "../contexts/Auth";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "react-toastify";

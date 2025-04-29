@@ -20,6 +20,14 @@ const TopupStatus = () => {
   const minutes = now.getMinutes().toString().padStart(2, '0');
 
   const formatted = `${day} ${month} ${year}, ${hours}.${minutes}`;
+
+  const formatRupiah = (value) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    }).format(value);
+  };
   
   return (
     <>
@@ -45,7 +53,7 @@ const TopupStatus = () => {
           </div>
 
           <div className="text-sm text-gray-500">
-            <p>Amount <span className="float-right font-semibold text-black">Rp100.000</span></p>
+            <p>Amount <span className="float-right font-semibold text-black">{formatRupiah(topupStatus.amount)}</span></p>
           </div>
         </div>
 

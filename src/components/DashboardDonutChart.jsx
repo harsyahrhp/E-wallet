@@ -1,66 +1,52 @@
 import { useEffect, useRef, useState } from "react"
 import { Chart, DoughnutController, ArcElement, Tooltip, Legend, LineController, LineElement, PointElement, LinearScale, Title, CategoryScale } from 'chart.js';
 
-const DashboardDonutChart = () =>{
+const DashboardDonutChart = () => {
     Chart.register(DoughnutController, ArcElement, Tooltip, Legend, LineController, LineElement, PointElement, LinearScale, Title, CategoryScale);
     const doughnutRef = useRef(null);
     const donutChartInstance = useRef(null);
-    const [dataDonutChart, setDataDonutChart] = useState();
     const [dataFinance, setDataFinance] = useState("");
+    const [loadingFinance, setLoadingFinance] = useState(true);
 
-    useEffect(()=>{
-        const financeData = async () => {
-            const token = localStorage.getItem("token");
-            try {
-                const response = await fetch('https://kelompok5.serverku.org/api/transactions/summary/this_month', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: "Bearer " + token
-                    },
-                });
+    const financeData = async () => {
+        setLoadingFinance(true)
+        const token = localStorage.getItem("token");
+        try {
+            const response = await fetch('https://kelompok5.serverku.org/api/transactions/summary/this_month', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: "Bearer " + token
+                },
+            });
 
-                const data = await response.json();
-                setDataFinance(data);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
+            const data = await response.json();
+            setDataFinance(data);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+        finally {
+            setLoadingFinance(false)
+        }
+    };
+    useEffect(() => {
 
         financeData();
-
-        const getDountChart = async () => {
-            const token = localStorage.getItem("token");
-            try {
-                const response = await fetch('https://kelompok5.serverku.org/api/transactions/summary/donut/last_month', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: "Bearer " + token
-                    },
-                });
-
-                const data = await response.json();
-                setDataDonutChart(data);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        }
-
-        getDountChart()
     }, [])
 
-        useEffect(() => {
-            if (!dataDonutChart?.data || !doughnutRef.current) return;
-        
+    useEffect(() => {
+        setTimeout(() => {
+
+            if (!dataFinance?.data || !doughnutRef.current) return;
+
             if (donutChartInstance.current) {
-                donutChartInstance.current.destroy(); 
+                donutChartInstance.current.destroy();
             }
-        
+
             const doughnutCtx = doughnutRef.current.getContext('2d');
-        
-            const colors = ['#F0E8FF', '#3A1D6E']; 
-        
+
+            const colors = ['#F0E8FF', '#3A1D6E'];
+
             donutChartInstance.current = new Chart(doughnutCtx, {
                 type: 'doughnut',
                 data: {
@@ -111,15 +97,16 @@ const DashboardDonutChart = () =>{
                         }
                     }
                 }
-            });
-        }, [dataDonutChart]);
+            }, 100);
+        });
+    }, [dataFinance]);
 
 
-    return(
+    return (
         <div className="flex flex-col items-center bg-white p-4 rounded-xl shadow w-72">
-        <p className="mt-4 font-semibold">This Month</p>
-        <canvas ref={doughnutRef} width={200} height={100}></canvas>
-    </div>
+            <p className="mt-4 font-semibold">This Month</p>
+            {loadingFinance ? <div className="animate-pulse">Loading...</div> : <canvas ref={doughnutRef} width={200} height={100}></canvas>}
+        </div>
     )
 }
 

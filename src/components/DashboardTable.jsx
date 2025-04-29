@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ChevronDown, FileDown } from "lucide-react";
+import { ChevronDown, FileDown, Search } from "lucide-react";
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 
@@ -36,7 +36,7 @@ const DashboardTable = () => {
 
             const data = await response.json();
             setTransactions(data.data.transactions);
-            setTotalPages(data.data.totalPages); // 🛑 Hitung total pages
+            setTotalPages(data.data.totalPages);
         } catch (error) {
             console.error("Error fetching data:", error);
         }
@@ -45,9 +45,13 @@ const DashboardTable = () => {
         }
     };
 
+    const SearchFilter = () => {
+        fetchTransactions();
+    }
+
     useEffect(() => {
         fetchTransactions();
-    }, [searchTerm, filterType, startDate, endDate, page, limit]);
+    }, [filterType, startDate, endDate, page, limit]);
 
     const formatRupiah = (value) => {
         return new Intl.NumberFormat("id-ID", {
@@ -66,37 +70,39 @@ const DashboardTable = () => {
     };
 
     const exportTransactionsToExcel = (transactions) => {
-        // Ubah data ke worksheet
         const worksheet = XLSX.utils.json_to_sheet(transactions);
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Transactions');
 
-        // Buat file Excel di memori
         const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
 
-        // Simpan file
         const data = new Blob([excelBuffer], { type: 'application/octet-stream' });
         saveAs(data, 'transactions.xlsx');
     };
 
     return (
         <>
-            {/* Filter Inputs */}
             <div className="flex justify-between items-center mb-2 mt-12">
-                <div>
-                    <input
-                        type="text"
-                        placeholder="Search transactions..."
-                        className="border border-gray-300 p-2 rounded-md w-64"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
+                <div className="flex gap-2">
+                    <div className="flex text-purple-600 border-purple-600 shadow border p-2 rounded-md w-[20vw]">
+                        <input
+                            type="text"
+                            className="appearance-none focus:outline-none bg-transparent"
+                            placeholder="Search transactions..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        >
+                        </input>
+                    </div>
+                    <button className="bg-transparent border border-purple-600 rounded-md px-1" onClick={SearchFilter}>
+                        <Search className=" text-purple-500 pointer-events-none" />
+                    </button>
                 </div>
 
                 <div className="flex gap-2">
-                    <div className="relative mr-20">
+                    <div className="relative mr-[3vw]">
                         <select
-                            className="w-full border shadow rounded-lg px-8 pl-4 py-2 appearance-none focus:outline-none"
+                            className="bg-transparent w-full border-purple-600 text-purple-600 border shadow rounded-lg px-8 pl-4 py-2 appearance-none focus:outline-none"
                             value={limit}
                             onChange={(e) => setlimit(e.target.value)}
                         >
@@ -109,20 +115,20 @@ const DashboardTable = () => {
                     </div>
                     <input
                         type="date"
-                        className="border border-gray-300 p-2 rounded-md mr-2"
+                        className="border bg-transparent border-purple-600 p-2 shadow rounded-md text-purple-600 mr-2"
                         value={startDate}
                         placeholder="From Date"
                         onChange={(e) => setStartDate(e.target.value)}
                     />
                     <input
                         type="date"
-                        className="border border-gray-300 p-2 rounded-md"
+                        className="border bg-transparent border-purple-600 p-2 shadow rounded-md text-purple-600"
                         value={endDate}
                         placeholder="To Date"
                         onChange={(e) => setEndDate(e.target.value)}
                     />
-                    <button onClick={() => exportTransactionsToExcel(transactions)}>
-                        <div className="flex bg-green-600 text-white p-2 rounded-md">
+                    <button className="border-purple-600 border p-2 shadow rounded-md" onClick={() => exportTransactionsToExcel(transactions)}>
+                        <div className="flex text-purple-600 ">
                             <FileDown></FileDown>
                             Export to Excel
                         </div>
@@ -132,7 +138,19 @@ const DashboardTable = () => {
 
             <h2 className="font-semibold text-lg mb-2">Your Transaction History</h2>
 
-            <div className="overflow-x-auto">
+            {loading ? (<div className="overflow-x-auto">
+                <table className="animate-pulse w-full table-auto text-sm border-separate border-spacing-y-1 rounded-md p-2 dark:bg-purple-600">
+                    <thead className="text-left text-purple-700 bg-[#F0E8FF]">
+                        <tr className="h-9">
+                            <th>Date & Time</th>
+                            <th>Type</th>
+                            <th>From/To</th>
+                            <th>Notes</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>) : (<div className="overflow-x-auto">
                 <table className="w-full table-auto text-sm border-separate border-spacing-y-1 rounded-md p-2 dark:bg-purple-600">
                     <thead className="text-left text-purple-700 bg-[#F0E8FF]">
                         <tr className="h-9">
@@ -170,7 +188,9 @@ const DashboardTable = () => {
                         )}
                     </tbody>
                 </table>
-            </div>
+            </div>)}
+
+
 
             {/* Pagination Controls */}
             <div className="flex justify-between items-center mt-4">

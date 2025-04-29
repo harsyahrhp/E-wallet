@@ -1,11 +1,9 @@
 import walledLogo from "../assets/react.svg";
 import logo from "../assets/logo.svg";
-import authBanner from "../assets/auth-picture.svg";
+import authBanner from "../assets/auth-picture.jpg";
 import { useState } from "react";
 import { useAuth } from "../contexts/Auth";
 import { NavLink, useNavigate } from "react-router-dom";
-// import { Moon, Sun } from "lucide-react";
-// import { useTheme } from "../contexts/ThemeContext";
 import { toast } from "react-toastify";
 import PasswordInput from "../components/HidePassword.jsx"
 
@@ -13,8 +11,6 @@ const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useAuth();
-
-  //   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -35,7 +31,6 @@ const LoginPage = () => {
       const data = await response.json();
 
       if (response.ok) {
-        // alert(data.message);
         toast.success(data.message);
         login(data.token);
           navigate("/");
@@ -44,7 +39,6 @@ const LoginPage = () => {
       }
     } catch (error) {
       toast.error(data.message);
-      // alert(data?.message);
     }
   };
 
@@ -79,19 +73,6 @@ const LoginPage = () => {
               </div>
 
                 <PasswordInput label="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-              {/* <div>
-                <div className="mt-2">
-                  <input
-                    id="password"
-                    name="password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    type="password"
-                    placeholder="Password"
-                    required
-                    className="w-full mt-2 p-1 border-b border-purple-400 bg-transparent focus:outline-none"
-                  />
-                </div>
-              </div> */}
 
               <div>
                 <p className="mt-10 mb-2 text-center text-[12px] ">

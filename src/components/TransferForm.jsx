@@ -13,6 +13,7 @@ const TransferForm = () => {
   const [toAccount, setToAccount] = useState("");
   const [dataTransferUser, setDataTransferUser] = useState([]);
   const navigate = useNavigate();
+  const [loadingData, setLoadingData] = useState(true);
 
   const handleClick = () => {
     if (accountNumber == "") {
@@ -39,29 +40,33 @@ const TransferForm = () => {
     setTransferForm(test)
   }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const token = localStorage.getItem("token");
-      try {
-        const response = await fetch('https://kelompok5.serverku.org/api/users/me', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: "Bearer " + token
-          },
-        });
+  const fetchData = async () => {
+    setLoadingData(true)
+    const token = localStorage.getItem("token");
+    try {
+      const response = await fetch('https://kelompok5.serverku.org/api/users/me', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: "Bearer " + token
+        },
+      });
 
-        const data = await response.json();
-        setDataUser(data);
+      const data = await response.json();
+      setDataUser(data);
 
-        if(data.message == 'JWT token expired'){
-          toast.error("Sesion Expired");
-          navigate("/login");
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      if(data.message == 'JWT token expired'){
+        toast.error("Sesion Expired");
+        navigate("/login");
       }
-    };
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+    finally{
+      setLoadingData(false)
+  }
+  };
+  useEffect(() => {
 
     fetchData();
 
@@ -102,17 +107,6 @@ const TransferForm = () => {
 
   return (
     <>
-      {/* <div className="ml-5 mt-5 text-[14px] flex gap-2">
-        <p className="">
-          <NavLink to="/" className="text-[#ABA7AF]">
-            Dashboard
-          </NavLink>
-        </p >
-        <p className="text-[#9F2BFB]">{'>'}</p>
-        <p className="text-[#9F2BFB] underline">
-          Transfer
-        </p>
-      </div> */}
       <div className="pt-8">
 
       <div className="max-w-md mx-auto p-8 rounded-3xl shadow-lg bg-white">
@@ -141,7 +135,8 @@ const TransferForm = () => {
             <img src={walletLogo} alt="wallet" className="w-10 h-10" />
             <div>
               <p className="text-sm">Wally Balance</p>
-              <p className="font-semibold">{formatRupiah(dataUser?.data?.balance)}</p>
+              {loadingData ? <p className="font-semibold animate-pulse">Loading....</p> : <p className="font-semibold">{formatRupiah(dataUser?.data?.balance)}</p> }
+              
             </div>
           </div>
         </div>
@@ -159,7 +154,6 @@ const TransferForm = () => {
               }}
               className="bg-purple-50 text-2xl font-bold text-purple-800 focus:outline-none" />
           </div>
-          <p className="text-xs text-gray-400 mt-1">Minimum Rp10.000</p>
         </div>
 
         <button

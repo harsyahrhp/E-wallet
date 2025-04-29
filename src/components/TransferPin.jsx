@@ -15,7 +15,6 @@ const TransferPin = () => {
     newPin[index] = element.value;
     setPin(newPin);
 
-    // Auto focus next input
     if (element.nextSibling && element.value !== "") {
       element.nextSibling.focus();
     }
@@ -27,7 +26,6 @@ const TransferPin = () => {
 
   const handleClick = async () => {
     dataTF.pin = pin.join("");
-    // changeStatusTransfer("TransferStatus");
 
     const token = localStorage.getItem("token");
     try {
@@ -56,26 +54,6 @@ const TransferPin = () => {
 
   return (
     <>
-      {/* <div className="ml-5 mt-5 text-[14px] flex gap-2">
-        <p className="">
-          <NavLink to="/" className="text-[#ABA7AF]">
-            Dashboard
-          </NavLink>
-        </p>
-        <p className="text-[#ABA7AF]">{'>'}</p>
-        <p className="text-[#ABA7AF]">
-          Transfer
-        </p>
-        <p className="text-[#ABA7AF]">{'>'}</p>
-        <p className="text-[#ABA7AF]">
-          Confirmation
-        </p>
-        <p className="text-[#9F2BFB]">{'>'}</p>
-        <p className="text-[#9F2BFB] underline">
-          PIN
-        </p>
-      </div> */}
-
       <div className="pt-8">
         <div className="max-w-sm mx-auto mt-2 p-8 rounded-3xl shadow-lg bg-white text-center">
           <h2 className="text-2xl font-semibold mb-4">PIN</h2>
@@ -92,10 +70,6 @@ const TransferPin = () => {
                 onChange={(e) => handleChange(e.target, index)} />
             ))}
           </div>
-
-          {/* <p className="text-sm text-gray-500 mb-6 cursor-pointer hover:text-purple-600">
-          Forget PIN?
-        </p> */}
 
           <button
             className="w-full bg-[#9F2BFB] hover:bg-[#8b23dc] text-white font-semibold py-2 rounded-lg"

@@ -68,14 +68,14 @@ const NavbarPage = () => {
       </div>
 
       <div className="flex items-center gap-4">
-        <button className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
+        {/* <button className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
         onClick={toggleDarkMode}>
         {isDarkMode ? (
             <Sun className="text-[#9F2BFB]" size={20} />
           ) : (
             <Moon className="text-[#9F2BFB]" size={20} />
           )}
-        </button>
+        </button> */}
         <div className="w-[1px] h-6 bg-gray-300"></div>
 
         <button

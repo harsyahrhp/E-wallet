@@ -1,10 +1,7 @@
 import logo from "../assets/logo.svg";
 import checkLogo from "../assets/check-logo.png";
-import authBanner from "../assets/auth-picture.svg";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router";
-// import { Moon, Sun } from "lucide-react";
-// import { useTheme } from "../contexts/ThemeContext";
 import { useAuth } from "../contexts/Auth";
 
 const RegisterStatus = () => {

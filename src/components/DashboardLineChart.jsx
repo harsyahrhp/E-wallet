@@ -4,10 +4,12 @@ import { useEffect, useRef, useState } from 'react';
 const DashboardLineChart = () => {
     Chart.register(DoughnutController, ArcElement, Tooltip, Legend, LineController, LineElement, PointElement, LinearScale, Title, CategoryScale);
     const [dataLineChart, setDataLineChart] = useState();
+    const [lineChartLoading, setLineChartLoading] = useState(true);
     const lineRef = useRef(null);
     const lineChartInstance = useRef(null);
 
     useEffect(() => {
+        setLineChartLoading(true);
         const getLineChart = async () => {
             const token = localStorage.getItem("token");
             try {
@@ -24,7 +26,10 @@ const DashboardLineChart = () => {
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
-        }
+            finally {
+                setLineChartLoading(false);
+            }
+        }        
 
         getLineChart()
     }, [])
@@ -33,7 +38,7 @@ const DashboardLineChart = () => {
         if (!dataLineChart?.data || !lineRef.current) return;
 
         if (lineChartInstance.current) {
-            lineChartInstance.current.destroy(); // 🔥 Destroy dulu yang lama
+            lineChartInstance.current.destroy(); 
         }
 
         const lineCtx = lineRef.current.getContext('2d');
@@ -64,10 +69,15 @@ const DashboardLineChart = () => {
             }
         });
     }, [dataLineChart]);
+
     return (
         <div className="flex-1 bg-white p-4 rounded-xl shadow">
+        {lineChartLoading ? (
+            <canvas ref={lineRef} height={100} className='animate-pulse'></canvas>
+        ) : (
             <canvas ref={lineRef} height={100}></canvas>
-        </div>
+        )}
+    </div>
     )
 }
 

@@ -11,6 +11,8 @@ const DashboardPage = () => {
     const [dataFinance, setDataFinance] = useState("");
     const [showBalance, setShowBalance] = useState(true);
     const [showBalanceFinace, setShowBalanceFinance] = useState(true);
+    const [loadingFinance, setLoadingFinance] = useState(true);
+    const [loadingData, setLoadingData] = useState(true);
 
     const toggleBalance = () => {
         setShowBalance(prev => !prev);
@@ -20,45 +22,52 @@ const DashboardPage = () => {
         setShowBalanceFinance(prev => !prev);
     };
 
+    const fetchData = async () => {
+        setLoadingData(true)
+        const token = localStorage.getItem("token");
+        try {
+            const response = await fetch('https://kelompok5.serverku.org/api/users/me', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: "Bearer " + token
+                },
+            });
+
+            const data = await response.json();
+            setDataUser(data);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+        finally{
+            setLoadingData(false)
+        }
+    };
+
+    const financeData = async () => {
+        setLoadingFinance(true)
+        const token = localStorage.getItem("token");
+        try {
+            const response = await fetch('https://kelompok5.serverku.org/api/transactions/summary/this_month', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: "Bearer " + token
+                },
+            });
+
+            const data = await response.json();
+            setDataFinance(data);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+        finally{
+            setLoadingFinance(false)
+        }
+    };
+
     useEffect(() => {
-        const fetchData = async () => {
-            const token = localStorage.getItem("token");
-            try {
-                const response = await fetch('https://kelompok5.serverku.org/api/users/me', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: "Bearer " + token
-                    },
-                });
-
-                const data = await response.json();
-                setDataUser(data);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
-
         fetchData();
-
-        const financeData = async () => {
-            const token = localStorage.getItem("token");
-            try {
-                const response = await fetch('https://kelompok5.serverku.org/api/transactions/summary/this_month', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: "Bearer " + token
-                    },
-                });
-
-                const data = await response.json();
-                setDataFinance(data);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
-
         financeData();
     }, []);
 
@@ -96,24 +105,20 @@ const DashboardPage = () => {
     return (
         <>
             <NavbarPage />
-            {/* <p>
-                {formattedStartDate} - {formattedEndDate}
-            </p> */}
 
             <div className="p-6 dark:bg-black">
-                {/* Header */}
-                <h2 className="text-xl font-semibold dark:text-purple-600">Welcome, {dataUser?.data?.fullname}!</h2>
-                <p className="text-sm text-gray-500">Your wallet’s all set and secure. Let’s get started.</p>
+                {loadingData ? <h2 className="text-xl font-semibold dark:text-purple-600">Assalamualaikum,</h2> :
+                    <h2 className="text-xl font-semibold dark:text-purple-600">Assalamualaikum, {dataUser?.data?.fullname}!</h2>}
+                <p className="text-sm text-gray-500">Your wallet’s all set and secure. Bismillah, let’s get started.</p>
 
                 <div className="flex flex-wrap gap-4 mt-5">
-                    {/* Account Info */}
                     <div className="flex items-center bg-gradient-to-br from-purple-600 to-purple-900 text-white p-6 rounded-2xl shadow-lg w-full max-w-xs">
                         <div>
                             <p className="text-sm">Account Number:</p>
-                            <p className="text-lg font-semibold">{dataUser?.data?.accountnum}</p>
+                            {loadingData ? <p className="text-lg font-semibold animate-pulse">Loading...</p> : <p className="text-lg font-semibold">{dataUser?.data?.accountnum}</p>}
                             <p className="mt-4 text-sm">Total Balance</p>
                             <div className="flex">
-                                <p className="text-2xl font-bold">{showBalance ? formatRupiah(dataUser?.data?.balance) : "***********"}</p>
+                                {loadingData ? <p className="text-2xl font-bold animate-pulse">Loading...</p> : <p className="text-2xl font-bold">{showBalance ? formatRupiah(dataUser?.data?.balance) : "***********"}</p> }
                                 <button onClick={toggleBalance} className="text-white ml-2">
                                     {showBalance ? <EyeOff size={20} /> : <Eye size={20} />}
                                 </button>
@@ -121,7 +126,6 @@ const DashboardPage = () => {
                         </div>
                     </div>
 
-                    {/* Financial Summary */}
                     <div className="flex-1 space-y-4 ml-8">
                         <div className="flex justify-between">
                             <div>
@@ -142,7 +146,7 @@ const DashboardPage = () => {
                                         <LogIn className="text-green-600" />
                                         <p className="font-semibold">Income</p>
                                     </div>
-                                    <p>{showBalanceFinace ? (formatRupiah(dataFinance?.data?.totalIncome)) : "*********"}</p>
+                                    {loadingFinance ? <p className="animate-pulse">Loading...</p> : <p>{showBalanceFinace ? (formatRupiah(dataFinance?.data?.totalIncome)) : "*********"}</p>}
                                 </div>
                             </div>
                             <div className="flex w-1/2 border rounded-md p-4 shadow-sm text-red-600 justify-center items-center">
@@ -151,11 +155,12 @@ const DashboardPage = () => {
                                         <LogIn className="text-red-600" />
                                         <p className="font-semibold">Expense</p>
                                     </div>
-                                    <p>{showBalanceFinace ? formatRupiah(dataFinance?.data?.totalExpense): "***********"}</p>
+                                    {loadingFinance ? <p className="animate-pulse">Loading...</p> : <p>{showBalanceFinace ? formatRupiah(dataFinance?.data?.totalExpense) : "***********"}</p>}
                                 </div>
                             </div>
                         </div>
-                        <p className="text-sm text-green-600">Difference {showBalanceFinace ? (formatRupiah(dataFinance?.data?.totalIncome - dataFinance?.data?.totalExpense)) : "***********"}</p>
+                        {loadingFinance ? <p className="animate-pulse">Loading...</p> :  <p className="text-sm text-green-600">Difference {showBalanceFinace ? (formatRupiah(dataFinance?.data?.totalIncome - dataFinance?.data?.totalExpense)) : "***********"}</p>}
+                       
                     </div>
                 </div>
 

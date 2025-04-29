@@ -1,5 +1,5 @@
 import logo from "../assets/logo.svg";
-import authBanner from "../assets/auth-picture.svg";
+import authBanner from "../assets/auth-picture.jpg";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router";
 import RegisterForm from "../components/RegisterForm";

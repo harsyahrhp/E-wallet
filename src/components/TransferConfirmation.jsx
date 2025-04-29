@@ -46,22 +46,6 @@ const TransferConfirmation = () => {
 
   return (
     <>
-      {/* <div className="ml-5 mt-5 text-[14px] flex gap-2">
-        <p className="">
-          <NavLink to="/" className="text-[#ABA7AF]">
-            Dashboard
-          </NavLink>
-        </p>
-        <p className="text-[#ABA7AF]">{'>'}</p>
-        <p className="text-[#ABA7AF]">
-          Transfer
-        </p>
-        <p className="text-[#9F2BFB]">{'>'}</p>
-        <p className="text-[#9F2BFB] underline">
-          Confirmation
-        </p>
-      </div> */}
-
       <div className="pt-8">
 
       <div className="max-w-md mx-auto mt-2 p-8 rounded-3xl shadow-lg bg-white">
@@ -70,7 +54,6 @@ const TransferConfirmation = () => {
         <div className="mb-6">
           <p className="text-sm mb-1">Recipient</p>
           <div className="flex items-center p-4 border rounded-lg shadow-sm">
-            {/* <img src={profile} alt="recipient" className="w-8 h-8 rounded-full mr-3" /> */}
             <CircleUserRound className="text-purple-600 w-10 h-10 mr-2" />
             <div>
               <p className="font-medium">{dataTF.accountName}</p>
@@ -82,7 +65,6 @@ const TransferConfirmation = () => {
         <div className="mb-6">
           <p className="text-sm mb-1">Source of Fund</p>
           <div className="flex items-center p-4 border rounded-lg shadow-sm">
-            {/* <img src={profile} alt="source" className="w-8 h-8 rounded-full mr-3" /> */}
             <CircleUserRound className="text-purple-600 w-10 h-10 mr-2" />
             <div>
               <p className="font-medium">{dataUser?.data?.fullname}</p>
@@ -92,7 +74,6 @@ const TransferConfirmation = () => {
         </div>
 
         <div className="flex justify-between mb-1">
-          {/* <span className="text-sm">Notes</span> */}
           <span className="text-sm text-gray-400">-</span>
         </div>
         <div className="flex justify-between border-b pb-3 mb-6">
