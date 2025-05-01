@@ -11,6 +11,7 @@ function PasswordInput ({ label, value, onChange }) {
         value={value}
         onChange={onChange}
         placeholder={label}
+        required
         className="w-full p-1 border-b border-purple-400 bg-transparent focus:outline-none"
       />
       <button

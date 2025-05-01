@@ -66,7 +66,7 @@ const DashboardDonutChart = () => {
                         legend: {
                             position: 'bottom',
                             labels: {
-                                color: '#374151', // Gray
+                                color: '#374151', 
                                 font: {
                                     size: 12,
                                     weight: '500',

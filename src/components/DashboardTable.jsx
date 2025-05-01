@@ -70,12 +70,41 @@ const DashboardTable = () => {
     };
 
     const exportTransactionsToExcel = (transactions) => {
-        const worksheet = XLSX.utils.json_to_sheet(transactions);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, 'Transactions');
-
+        const headers = [
+            'ID', 'ACCOUNTNUM', 'DATETIME', 'TYPE', 'FROMTO', 'DESCRIPTION', 'AMOUNT'
+        ];
+    
+        const formatDate = (isoDateStr) => {
+            const date = new Date(isoDateStr);
+            const pad = (n) => n.toString().padStart(2, '0');
+            return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear().toString().slice(-2)}, ${pad(date.getHours())}.${pad(date.getMinutes())}`;
+        };
+    
+        const worksheetData = [
+            headers,
+            ...transactions.map(tx => [
+                tx.id,
+                tx.accountnum,
+                formatDate(tx.dateTime),
+                tx.type,
+                tx.fromTo,
+                tx.description,
+                tx.amount
+            ])
+        ];
+    
+        const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+    
+        // Styling DIHAPUS — jika pakai 'xlsx-style' bisa diganti ke 'xlsx' biasa
+    
+        const workbook = {
+            SheetNames: ['Transactions'],
+            Sheets: {
+                'Transactions': worksheet
+            }
+        };
+    
         const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-
         const data = new Blob([excelBuffer], { type: 'application/octet-stream' });
         saveAs(data, 'transactions.xlsx');
     };
@@ -190,9 +219,6 @@ const DashboardTable = () => {
                 </table>
             </div>)}
 
-
-
-            {/* Pagination Controls */}
             <div className="flex justify-between items-center mt-4">
                 <button
                     onClick={handlePrevPage}
