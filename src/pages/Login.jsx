@@ -1,7 +1,7 @@
 import walledLogo from "../assets/react.svg";
 import logo from "../assets/logo.svg";
 import authBanner from "../assets/auth-picture.jpg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/Auth";
 import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -10,7 +10,7 @@ import PasswordInput from "../components/HidePassword.jsx"
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useAuth();
+  const { login, changeStatus } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -41,6 +41,10 @@ const LoginPage = () => {
       toast.error(data.message);
     }
   };
+
+  useEffect(()=>{
+    changeStatus("RegisterForm")
+  })
 
   return (
     <div className="flex min-h-screen overflow-hidden ">

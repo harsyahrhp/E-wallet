@@ -8,6 +8,7 @@ import DashboardPage from "./pages/Dashboard";
 import ProtectedRoute from "./ProtectedRoute";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import NotFound from "./pages/NotFound";
 
 export default function AppRoutes() {
     return (
@@ -17,6 +18,7 @@ export default function AppRoutes() {
             <Route path="/topup" element={<ProtectedRoute><TopUpPage /></ProtectedRoute>} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="*" element={<NotFound />} /> {/* 404 Route */}
         </Routes></>
     );
 }

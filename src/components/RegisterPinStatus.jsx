@@ -7,6 +7,7 @@ import { useAuth } from "../contexts/Auth";
 const RegisterStatus = () => {
   const { changeStatus, statusRegis } = useAuth();
   const [pin, setPin] = useState(new Array(6).fill(""));
+  const navigate = useNavigate();
 
   const handleChange = (element, index) => {
     if (isNaN(element.value)) return;
@@ -22,6 +23,7 @@ const RegisterStatus = () => {
 
   };
   const handleClick = () => {
+    navigate("/login");
     changeStatus("RegisterForm")
   }
 
@@ -43,9 +45,7 @@ const RegisterStatus = () => {
         className="w-full bg-[#9F2BFB] hover:bg-[#8b23dc] text-white font-semibold py-2 rounded-lg"
         onClick={handleClick}
       >
-        <NavLink to="/login">
           Go to your account
-        </NavLink>
       </button>
     </div>
   );

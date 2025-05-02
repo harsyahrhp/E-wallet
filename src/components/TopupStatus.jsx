@@ -7,7 +7,10 @@ import { CircleUserRound } from "lucide-react";
 
 const TopupStatus = () => {
   const { changeStatusTopup, topupStatus, setTopupStatus } = useAuth();
+  const navigate = useNavigate();
+
   const handleClick = () => {
+    navigate("/");
     changeStatusTopup("TopupForm");
   }
 

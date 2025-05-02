@@ -6,7 +6,9 @@ import { CircleUserRound } from "lucide-react";
 
 const TransferStatus = () => {
   const { changeStatusTransfer, transferStatus, setTransferStatus } = useAuth();
+  const navigate = useNavigate();
   const handleClick = () => {
+    navigate("/");
     changeStatusTransfer("TransferForm");
   }
 
@@ -65,9 +67,7 @@ const TransferStatus = () => {
 
         <button className="w-full bg-[#9F2BFB] hover:bg-[#8b23dc] text-white font-semibold py-2 rounded-lg mt-4"
           onClick={handleClick}>
-          <NavLink to="/" >
             Back to dashboard
-          </NavLink>
         </button>
       </div>
       </div>
